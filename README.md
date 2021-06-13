@@ -1,7 +1,7 @@
 # TradeAPI
 <b>Implement Trade V2 UI in PMMP</b>  
 https://github.com/organization/TradeAPI
-# warning: This fork has a bug
+# note: This fork has a bug
 
 ## How to use
 > [Youtube](https://youtu.be/38xiaMfrlcU)
