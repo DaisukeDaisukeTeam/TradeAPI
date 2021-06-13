@@ -11,16 +11,16 @@ use pocketmine\Player;
 class NetworkFakeInventoryAction extends NetworkInventoryAction{
 
     public function createInventoryAction(Player $player): ?InventoryAction{
-        if ($this->oldItem->equalsExact($this->newItem)) {
+        if ($this->oldItem->getItemStack()->equalsExact($this->newItem->getItemStack())) {
             return null;
         }
         switch ($this->sourceType) {
             case self::SOURCE_TODO:
                 if ($this->windowId === -30) {
-                    return new SlotChangeAction(new FakeInventory($this->oldItem), $this->inventorySlot, $this->oldItem, $this->newItem);
+                    return new SlotChangeAction(new FakeInventory($this->oldItem->getItemStack()), $this->inventorySlot, $this->oldItem, $this->newItem);
                 }
                 if ($this->windowId === -31) {
-                    return new SlotChangeAction(new FakeInventory($this->oldItem), $this->inventorySlot, $this->oldItem, $this->newItem);
+                    return new SlotChangeAction(new FakeInventory($this->oldItem->getItemStack()), $this->inventorySlot, $this->oldItem, $this->newItem);
                 }
                 throw new \UnexpectedValueException("No open container with window ID $this->windowId");
             default:

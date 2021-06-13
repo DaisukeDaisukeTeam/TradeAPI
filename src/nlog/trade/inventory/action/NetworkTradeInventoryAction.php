@@ -12,7 +12,7 @@ use pocketmine\Player;
 class NetworkTradeInventoryAction extends NetworkInventoryAction{
 
     public function createInventoryAction(Player $player) : ?InventoryAction{
-        if($this->oldItem->equalsExact($this->newItem)){
+        if($this->oldItem->getItemStack()->equalsExact($this->newItem->getItemStack())){
             return null;
         }
         switch($this->sourceType){
@@ -28,7 +28,7 @@ class NetworkTradeInventoryAction extends NetworkInventoryAction{
                     $slot -= 49;
                 }
                 if($window !== null){
-                    return new SlotChangeAction($window, $slot, $this->oldItem, $this->newItem);
+                    return new SlotChangeAction($window, $slot, $this->oldItem->getItemStack(), $this->newItem->getItemStack());
                 }
 
                 throw new \UnexpectedValueException("No open container with window ID $this->windowId");
