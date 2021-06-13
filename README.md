@@ -1,5 +1,7 @@
 # TradeAPI
-<b>Implement Trade V2 UI in PMMP</b>
+<b>Implement Trade V2 UI in PMMP</b>  
+https://github.com/organization/TradeAPI
+# warning: This fork has a bug
 
 ## How to use
 > [Youtube](https://youtu.be/38xiaMfrlcU)
@@ -9,6 +11,40 @@
 if (!TradeHandler::isRegistrant()) {
     TradeHandler::register($this);
 }
+```
+```php
+use nlog\trade\merchant\MerchantRecipe;
+use nlog\trade\merchant\MerchantRecipeList;
+use nlog\trade\merchant\TradeProperties;
+use nlog\trade\TradeAPI;
+use nlog\trade\TradeHandler;
+use pocketmine\event\server\DataPacketReceiveEvent;
+use pocketmine\item\enchantment\Enchantment;
+use pocketmine\item\enchantment\EnchantmentInstance;
+use pocketmine\item\ItemFactory;
+use pocketmine\item\ItemIds;
+```
+```php
+$prop = new TradeProperties();
+$prop->maxTradeTier = 3;
+$prop->tradeTier = 2;
+$prop->tradeName = "[Test] Trade API";
+$prop->xp = intval($args[0] ?? mt_rand(0, 50));
+
+$item = ItemFactory::get(ItemIds::ENCHANTED_BOOK);
+$item->addEnchantment(new EnchantmentInstance(Enchantment::getEnchantment(Enchantment::PROTECTION),4));
+$item1 = ItemFactory::get(ItemIds::BOOK);
+$item1->addEnchantment(new EnchantmentInstance(Enchantment::getEnchantment(Enchantment::MENDING), 0));
+TradeHandler::getTradeAPI()->sendWindow($sender,new MerchantRecipeList(
+	new MerchantRecipe(ItemFactory::get(ItemIds::ROTTEN_FLESH, 0, 32), ItemFactory::get(ItemIds::EMERALD), null, 0),
+	new MerchantRecipe(ItemFactory::get(ItemIds::GOLD_NUGGET, 0, 32), ItemFactory::get(ItemIds::EMERALD), null, 0),
+	new MerchantRecipe(ItemFactory::get(ItemIds::COAL, 0, 16), ItemFactory::get(ItemIds::EMERALD), null, 0),
+	new MerchantRecipe(ItemFactory::get(ItemIds::DIAMOND, 0, 16), ItemFactory::get(ItemIds::EMERALD)->setCustomName("§bTrade"), null, 1),
+
+
+	new MerchantRecipe(ItemFactory::get(ItemIds::EMERALD, 0, 52), $item, ItemFactory::get(ItemIds::BOOK), 2),
+	new MerchantRecipe(ItemFactory::get(ItemIds::EMERALD, 0, 64), $item, ItemFactory::get(ItemIds::BOOK),3),
+), $prop);
 ```
 
 ## LICENSE
